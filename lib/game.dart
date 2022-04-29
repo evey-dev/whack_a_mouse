@@ -7,20 +7,25 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game>{
-  List<double> moleLoc = [300.0, 300.0, 350.0, 400.0, 400.0];
+  List<double> moleLoc = [400.0, 400.0, 450.0, 500.0, 500.0];
   late List<Mole> moles;
   _GameState() {
     moles = [
-      Mole(moleLoc[0], moleLoc[0], 53, const Duration(seconds: 1)),
-      Mole(moleLoc[1], moleLoc[1], 323, const Duration(seconds: 1)),
-      Mole(moleLoc[2], moleLoc[2], 188, const Duration(seconds: 1)),
-      Mole(moleLoc[3], moleLoc[3], 53, const Duration(seconds: 1)),
-      Mole(moleLoc[4], moleLoc[4], 323, const Duration(seconds: 1)),
+      Mole(moleLoc[0], moleLoc[0] - 100, 53, const Duration(seconds: 1)),
+      Mole(moleLoc[1], moleLoc[1] - 100, 323, const Duration(seconds: 1)),
+      Mole(moleLoc[2], moleLoc[2] - 100, 188, const Duration(seconds: 1)),
+      Mole(moleLoc[3], moleLoc[3] - 100, 53, const Duration(seconds: 1)),
+      Mole(moleLoc[4], moleLoc[4] - 100, 323, const Duration(seconds: 1)),
     ];
+
     startGame();
   }
   void startGame() {
-
+    moles[0].show();
+    moles[1].show();
+    moles[2].show();
+    moles[3].show();
+    moles[4].show();
   }
   @override
   Widget build(BuildContext context) {
