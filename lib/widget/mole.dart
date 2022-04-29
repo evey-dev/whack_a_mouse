@@ -9,13 +9,17 @@ class Mole extends StatefulWidget {
   bool shown = true;
 
   Mole(this.topLocation, this.showTopLocation, this.leftLocation, this.duration, {Key? key}) : super(key: key);
-
+  void show() {
+    topLocation = showTopLocation;
+  }
+  void hide() {
+    topLocation = showTopLocation+100;
+  }
   @override
   State<Mole> createState() => _MoleState(); //topLocation, showTopLocation, leftLocation, duration
 }
 
 class _MoleState extends State<Mole> {
-
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
@@ -30,7 +34,7 @@ class _MoleState extends State<Mole> {
             child: const Image(image: AssetImage('game/mole.png')),
             onTap: () {
               setState(() {
-                widget.topLocation = widget.showTopLocation+100;
+                widget.hide();
               });
             },
           ),
