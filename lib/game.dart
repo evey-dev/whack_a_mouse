@@ -17,6 +17,10 @@ class _GameState extends State<Game>{
       Mole(moleLoc[3], moleLoc[3], 53, const Duration(seconds: 1)),
       Mole(moleLoc[4], moleLoc[4], 323, const Duration(seconds: 1)),
     ];
+    startGame();
+  }
+  void startGame() {
+
   }
   @override
   Widget build(BuildContext context) {
