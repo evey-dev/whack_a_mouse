@@ -11,9 +11,11 @@ class Mole extends StatefulWidget {
   Mole(this.topLocation, this.showTopLocation, this.leftLocation, this.duration, {Key? key}) : super(key: key);
   void show() {
     topLocation = showTopLocation;
+    shown = true;
   }
   void hide() {
-    topLocation = showTopLocation+100;
+    topLocation = showTopLocation + 100;
+    shown = false;
   }
   @override
   State<Mole> createState() => _MoleState(); //topLocation, showTopLocation, leftLocation, duration
