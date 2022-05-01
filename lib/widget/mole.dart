@@ -9,22 +9,44 @@ class Mole extends StatefulWidget {
   bool shown = true;
 
   Mole(this.topLocation, this.showTopLocation, this.leftLocation, this.duration, {Key? key}) : super(key: key);
+  final _MoleState ms = _MoleState();
+
   void show() {
-    topLocation = showTopLocation;
-    shown = true;
+    ms.show();
   }
   void hide() {
-    topLocation = showTopLocation + 100;
-    shown = false;
+    ms.hide();
+  }
+  void changeDuration(int m) {
+    ms.changeDuration(m);
   }
   @override
-  State<Mole> createState() => _MoleState(); //topLocation, showTopLocation, leftLocation, duration
+  State<StatefulWidget> createState() => ms;
 }
 
 class _MoleState extends State<Mole> {
+  late AnimatedPositioned anim;
+  void show() {
+    setState(() {
+      widget.topLocation = widget.showTopLocation;
+      widget.shown = true;
+    });
+
+  }
+  void hide() {
+    setState(() {
+      widget.topLocation = widget.showTopLocation + 100;
+      widget.shown = false;
+    });
+  }
+  void changeDuration(int m) {
+    setState(() {
+      widget.duration = Duration(milliseconds: m);
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return AnimatedPositioned(
+    anim = AnimatedPositioned(
         top: widget.topLocation,
         left: widget.leftLocation,
         width: 75,
@@ -42,5 +64,6 @@ class _MoleState extends State<Mole> {
           ),
         )
     );
+    return anim;
   }
 }
