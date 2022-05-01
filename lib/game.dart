@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whack_a_mole/widget/mole.dart';
 import 'dart:math';
+import 'dart:ui';
 
 class Game extends StatefulWidget {
   const Game({Key? key}) : super(key: key);
@@ -10,21 +11,16 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game>{
-  List<double> moleLoc = [400.0, 400.0, 450.0, 500.0, 500.0];
-  double speed = 1;
-  int points = 0;
-  int showTime = 3000;
-  Stopwatch s = Stopwatch();
-
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
 
   late List<Mole> moles;
   _GameState() {
     moles = [
-      Mole(moleLoc[0], moleLoc[0] - 100, 53, const Duration(milliseconds: 500)),
-      Mole(moleLoc[1], moleLoc[1] - 100, 323, const Duration(milliseconds: 500)),
-      Mole(moleLoc[2], moleLoc[2] - 100, 188, const Duration(milliseconds: 500)),
-      Mole(moleLoc[3], moleLoc[3] - 100, 53, const Duration(milliseconds: 500)),
-      Mole(moleLoc[4], moleLoc[4] - 100, 323, const Duration(milliseconds: 500)),
+      Mole(300, 53, addScore),
+      Mole(300, 323, addScore),
+      Mole(350, 188, addScore),
+      Mole(400, 53, addScore),
+      Mole(400, 323, addScore),
     ];
 
     startGame();
@@ -34,9 +30,7 @@ class _GameState extends State<Game>{
     var timerDurations = [9, 9 + 10, 9 + 10 + 9, 9 + 10 + 9 + 10];
     var moleDurations = [400, 300, 200, 100];
     var showDurations = [2000, 1500, 1000, 750];
-    s.start();
     Timer t = Timer.periodic(const Duration(milliseconds: 3000), showMoles);
-    print("changing speed to " + 3000.toString());
     for(var i = 0; i < 4; i++) {
       Timer(Duration(seconds: timerDurations[i]),(){
         t.cancel();
@@ -44,7 +38,6 @@ class _GameState extends State<Game>{
         for (Mole m in moles) {
           m.changeDuration(moleDurations[i]);
         }
-        print("changing speed to " + showDurations[i].toString());
       });
     }
     Timer(const Duration(seconds: 9 + 10 + 9 + 10 + 15), () {
@@ -52,29 +45,38 @@ class _GameState extends State<Game>{
       for (Mole m in moles) {
         m.hide();
       }
-      print("done");
     });
   }
 
-  void showMoles(timer) {
-    moles[0].hide();
-    moles[1].hide();
-    moles[2].hide();
-    moles[3].hide();
-    moles[4].hide();
+  void addScore() {
+    switch (moles[0].duration.inMilliseconds) {
+      case 500:
+        _counter.value += 5;
+        break;
+      case 400:
+        _counter.value += 10;
+        break;
+      case 300:
+        _counter.value += 15;
+        break;
+      case 200:
+        _counter.value += 20;
+        break;
+      default:
+        _counter.value += 25;
+        break;
+    }
+  }
 
+  void showMoles(timer) {
     var random = [false,false,false,false,false];
     Random x = Random();
     for(var i = 0; i < random.length; i++) {
       random[i] = x.nextBool();
-      //안영하세요
     }
 
     for (var i = 0; i < random.length; i++) {
-      if(random[i]){
-        moles[i].show();
-        print('showing '+i.toString());
-      }
+      random[i] ? moles[i].show() : moles[i].hide();
     }
   }
 
@@ -142,19 +144,38 @@ class _GameState extends State<Game>{
                         child: IgnorePointer(ignoring: true, child: Image(image: AssetImage('game/top_1.png')))
                     ), // top_1
                     Positioned(
-                        top: 225,
-                        left: 169,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 2.0, color: Colors.black),
-                              borderRadius: const BorderRadius.all(Radius.circular(20)),
-                              color: Colors.black
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('0000', style: TextStyle(fontFamily: 'Digital', fontSize: 45, color: Colors.red)),
-                            )
+                      top: 225,
+                      left: 169,
+                      child: Container(
+                        height: 64,
+                        width: 110,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2.0, color: Colors.green),
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                          color: Colors.black
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                          ValueListenableBuilder<int>(
+                            valueListenable: _counter,
+                            builder: (BuildContext context, int value, Widget? child) {
+                              return Text(
+                                  value.toString().length == 4 ? value.toString() : value.toString().length == 3 ? "0" + value.toString() : value.toString().length == 2 ? "00" + value.toString() : "000" + value.toString(),
+                                  style: const TextStyle(
+                                      fontFamily: 'Digital',
+                                      fontSize: 45,
+                                      color: Colors.red,
+                                      fontFeatures: [
+                                        FontFeature.tabularFigures()
+                                      ],
+                                  ),
+                                  textAlign: TextAlign.center
+                              );
+                            },
+                          ),
                         )
+                      )
                     ),
 
                   ],

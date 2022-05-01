@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
-//ignore: must_be_immutable
 class Mole extends StatefulWidget {
-  double topLocation;
+  late double topLocation;
   final double showTopLocation;
   final double leftLocation;
-  Duration duration;
+  late Duration duration;
   bool shown = true;
+  final scoreFunction;
 
-  Mole(this.topLocation, this.showTopLocation, this.leftLocation, this.duration, {Key? key}) : super(key: key);
+  Mole(this.showTopLocation, this.leftLocation, this.scoreFunction, {Key? key}) : super(key: key){
+    duration = const Duration(milliseconds: 500);
+    topLocation = showTopLocation + 100;
+  }
   final _MoleState ms = _MoleState();
 
   void show() {
@@ -59,6 +62,7 @@ class _MoleState extends State<Mole> {
             onTap: () {
               setState(() {
                 widget.hide();
+                widget.scoreFunction();
               });
             },
           ),
