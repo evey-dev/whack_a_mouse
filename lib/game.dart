@@ -31,14 +31,29 @@ class _GameState extends State<Game>{
   }
 
   void startGame() {
+    var timerDurations = [9, 9 + 10, 9 + 10 + 9, 9 + 10 + 9 + 10];
+    var moleDurations = [400, 300, 200, 100];
+    var showDurations = [2000, 1500, 1000, 750];
     s.start();
     Timer t = Timer.periodic(const Duration(milliseconds: 3000), showMoles);
-    for(var i = 0; i < 6; i++) {
-      Timer(Duration(seconds: i == 0 || i == 3 ? 9 : 10),(){
+    print("changing speed to " + 3000.toString());
+    for(var i = 0; i < 4; i++) {
+      Timer(Duration(seconds: timerDurations[i]),(){
         t.cancel();
-        t = Timer.periodic(Duration(milliseconds: 3000 - i * 500), showMoles);
+        t = Timer.periodic(Duration(milliseconds: showDurations[i]), showMoles);
+        for (Mole m in moles) {
+          m.changeDuration(moleDurations[i]);
+        }
+        print("changing speed to " + showDurations[i].toString());
       });
     }
+    Timer(const Duration(seconds: 9 + 10 + 9 + 10 + 15), () {
+      t.cancel();
+      for (Mole m in moles) {
+        m.hide();
+      }
+      print("done");
+    });
   }
 
   void showMoles(timer) {
@@ -117,7 +132,7 @@ class _GameState extends State<Game>{
                     moles[3],
                     moles[4],
                     const Positioned(
-                        top: 480,
+                        top: 492,
                         width: 450,
                         child: Image(image: AssetImage('game/stand_front.png'))
                     ), // stand_front
@@ -126,6 +141,22 @@ class _GameState extends State<Game>{
                         width: 450,
                         child: IgnorePointer(ignoring: true, child: Image(image: AssetImage('game/top_1.png')))
                     ), // top_1
+                    Positioned(
+                        top: 225,
+                        left: 169,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2.0, color: Colors.black),
+                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                              color: Colors.black
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('0000', style: TextStyle(fontFamily: 'Digital', fontSize: 45, color: Colors.red)),
+                            )
+                        )
+                    ),
+
                   ],
                 ),
               ),
