@@ -8,65 +8,73 @@ class Mole extends StatefulWidget {
   bool shown = true;
   final scoreFunction;
 
-  Mole(this.showTopLocation, this.leftLocation, this.scoreFunction, {Key? key}) : super(key: key){
+  Mole(this.showTopLocation, this.leftLocation, this.scoreFunction, {Key? key})
+      : super(key: key) {
     duration = const Duration(milliseconds: 500);
     topLocation = showTopLocation + 100;
   }
+
   final _MoleState ms = _MoleState();
 
   void show() {
     ms.show();
   }
+
   void hide() {
     ms.hide();
   }
+
   void changeDuration(int m) {
     ms.changeDuration(m);
   }
+
   @override
   State<StatefulWidget> createState() => ms;
 }
 
 class _MoleState extends State<Mole> {
   late AnimatedPositioned anim;
+
   void show() {
     setState(() {
       widget.topLocation = widget.showTopLocation;
       widget.shown = true;
     });
-
   }
+
   void hide() {
     setState(() {
       widget.topLocation = widget.showTopLocation + 100;
       widget.shown = false;
     });
   }
+
   void changeDuration(int m) {
     setState(() {
       widget.duration = Duration(milliseconds: m);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     anim = AnimatedPositioned(
-        top: widget.topLocation,
-        left: widget.leftLocation,
-        width: 75,
-        duration: widget.duration,
-        child: IgnorePointer(
-          ignoring: !widget.shown,
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            child: const Image(image: AssetImage('game/mole.png')),
-            onTap: () {
-              setState(() {
-                widget.hide();
-                widget.scoreFunction();
-              });
-            },
-          ),
-        )
+      top: widget.topLocation,
+      left: widget.leftLocation,
+      width: 75,
+      duration: widget.duration,
+      child: IgnorePointer(
+        ignoring: !widget.shown,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          child: const Image(image: AssetImage('game/mole.png')),
+          onTap: () {
+            setState(() {
+              widget.hide();
+              widget.scoreFunction();
+            });
+          },
+        ),
+      ),
     );
     return anim;
   }
