@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'game.dart';
 import 'package:flutter/services.dart';
 
+import 'instructions.dart';
+
 class Menu extends StatelessWidget {
   Menu({Key? key}) : super(key: key);
-  late int highscore = 0;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -12,7 +13,8 @@ class Menu extends StatelessWidget {
     ));
     return Scaffold(
       body: Container(
-        width: 500,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/image/background.png'),
@@ -26,13 +28,23 @@ class Menu extends StatelessWidget {
               Image.asset('assets/image/title.png', height: 200),
               const SizedBox(height: 30),
               Image.asset('assets/image/drawing.png', height: 200),
-              IconButton(
-                iconSize: 200,
-                icon: Image.asset('assets/image/start.png'),
-                onPressed: () {
+              const SizedBox(height: 20),
+              GestureDetector(
+                child: Image.asset('assets/image/start.png', width: 300),
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const Game()),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                child: Image.asset('assets/image/instructions.png', width: 300),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Instructions()),
                   );
                 },
               ),

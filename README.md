@@ -1,16 +1,15 @@
-# whack_a_mole
+# Whack-A-Mouse
 
-Whack a mole game
+Inspired by Whack-A-Mole
+(built for android)
 
-## Getting Started
+## Screens
 
-This project is a starting point for a Flutter application.
+### Menu Screen
+[Menu Screen](assets/preview/menu.png)
 
-A few resources to get you started if this is your first Flutter project:
+### Instructions Screen
+[Instructions Screen](assets/preview/instructions.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Game Screen
+[Game Screen](assets/preview/game.png)

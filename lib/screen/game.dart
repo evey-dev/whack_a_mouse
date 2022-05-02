@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:whack_a_mole/widget/mole.dart';
 import 'dart:math';
@@ -14,6 +15,7 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+  final ValueNotifier<bool> _redText = ValueNotifier<bool>(true);
 
   late List<Mole> moles;
 
@@ -50,6 +52,12 @@ class _GameState extends State<Game> {
       for (Mole m in moles) {
         m.hide();
       }
+      _redText.value = false;
+      Timer(const Duration(milliseconds: 500), () {_redText.value = true;});
+      Timer(const Duration(milliseconds: 1000), () {_redText.value = false;});
+      Timer(const Duration(milliseconds: 1500), () {_redText.value = true;});
+      Timer(const Duration(milliseconds: 2000), () {_redText.value = false;});
+      Timer(const Duration(milliseconds: 2500), () {_redText.value = true;});
     });
   }
 
@@ -179,23 +187,23 @@ class _GameState extends State<Game> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ValueListenableBuilder<int>(
-                      valueListenable: _counter,
-                      builder: (BuildContext context, int value,
-                          Widget? child) {
+                    child: ValueListenableBuilder2<int, bool>(
+                      first: _counter,
+                      second: _redText,
+                      builder: (BuildContext context, int value1, bool value2, Widget? child) {
                         return Text(
-                          value.toString().length == 4
-                              ? value.toString()
-                              : value.toString().length == 3
-                                  ? "0" + value.toString()
-                                  : value.toString().length == 2
-                                      ? "00" + value.toString()
-                                      : "000" + value.toString(),
-                          style: const TextStyle(
+                          value1.toString().length == 4
+                              ? value1.toString()
+                              : value1.toString().length == 3
+                                  ? "0" + value1.toString()
+                                  : value1.toString().length == 2
+                                      ? "00" + value1.toString()
+                                      : "000" + value1.toString(),
+                          style: TextStyle(
                             fontFamily: 'Digital',
                             fontSize: 30,
-                            color: Colors.red,
-                            fontFeatures: [
+                            color: value2 ? Colors.red : Colors.black,
+                            fontFeatures: const [
                               FontFeature.tabularFigures(),
                             ],
                           ),
@@ -210,15 +218,42 @@ class _GameState extends State<Game> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pop(context);
         },
-        backgroundColor: Colors.green,
-        label: const Text('Exit'),
-        icon: const Icon(Icons.chevron_left),
+        backgroundColor: Colors.transparent,
+        child: Image.asset('assets/image/back.png', width: 100,),
+        elevation: 0,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
+}
+class ValueListenableBuilder2<A, B> extends StatelessWidget {
+  const ValueListenableBuilder2({
+    required this.first,
+    required this.second,
+    Key? key,
+    required this.builder,
+    this.child,
+  }) : super(key: key);
+
+  final ValueListenable<A> first;
+  final ValueListenable<B> second;
+  final Widget? child;
+  final Widget Function(BuildContext context, A a, B b, Widget? child) builder;
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<A>(
+    valueListenable: first,
+    builder: (_, a, __) {
+      return ValueListenableBuilder<B>(
+        valueListenable: second,
+        builder: (context, b, __) {
+          return builder(context, a, b, child);
+        },
+      );
+    },
+  );
 }
