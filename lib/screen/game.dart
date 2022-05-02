@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:whack_a_mole/widget/mole.dart';
 import 'dart:math';
 import 'dart:ui';
+import 'package:flutter/services.dart';
 
 class Game extends StatefulWidget {
   const Game({Key? key}) : super(key: key);
@@ -18,14 +19,16 @@ class _GameState extends State<Game> {
 
   _GameState() {
     moles = [
-      Mole(300, 53, addScore),
-      Mole(300, 323, addScore),
-      Mole(350, 188, addScore),
-      Mole(400, 53, addScore),
-      Mole(400, 323, addScore),
+      Mole(200, 33, addScore),
+      Mole(200, 245, addScore),
+      Mole(235, 138, addScore),
+      Mole(275, 33, addScore),
+      Mole(275, 240, addScore),
     ];
-
     startGame();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
   }
 
   void startGame() {
@@ -71,14 +74,16 @@ class _GameState extends State<Game> {
   }
 
   void showMoles(timer) {
-    var random = [false, false, false, false, false];
-    Random x = Random();
-    for (var i = 0; i < random.length; i++) {
-      random[i] = x.nextBool();
-    }
+    if (mounted) {
+      var random = [false, false, false, false, false];
+      Random x = Random();
+      for (var i = 0; i < random.length; i++) {
+        random[i] = x.nextBool();
+      }
 
-    for (var i = 0; i < random.length; i++) {
-      random[i] ? moles[i].show() : moles[i].hide();
+      for (var i = 0; i < random.length; i++) {
+        random[i] ? moles[i].show() : moles[i].hide();
+      }
     }
   }
 
@@ -91,82 +96,81 @@ class _GameState extends State<Game> {
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('game/background.png'),
+            image: AssetImage('assets/image/background.png'),
             fit: BoxFit.fill,
           ),
         ),
         child: Container(
           alignment: Alignment.center,
-          width: 450,
+          width: 350,
           child: Stack(
             fit: StackFit.loose,
             children: [
-              const Image(image: AssetImage('game/stand_back.png')),
+              const Image(image: AssetImage('assets/image/stand_back.png')),
               const Positioned(
-                top: 300,
-                width: 450,
-                child:
-                    Image(image: AssetImage('game/stand_top_under.png'),),
+                top: 230,
+                width: 350,
+                child: Image(image: AssetImage('assets/image/stand_top_under.png'),),
               ),
               const Positioned(
-                  top: 300,
-                  width: 450,
-                  child: Image(image: AssetImage('game/top_4.png'),),),
+                  top: 230,
+                  width: 350,
+                  child: Image(image: AssetImage('assets/image/top_4.png'),),),
               moles[0],
               moles[1],
               const Positioned(
-                top: 351,
-                width: 450,
+                top: 270,
+                width: 350,
                 child: IgnorePointer(
                   ignoring: true,
                   child: Image(
-                    image: AssetImage('game/top_3.png'),
+                    image: AssetImage('assets/image/top_3.png'),
                   ),
                 ),
               ),
               const Positioned(
-                top: 400,
-                width: 450,
+                top: 307,
+                width: 350,
                 child: Image(
-                  image: AssetImage('game/stand_top_divider.png'),
+                  image: AssetImage('assets/image/stand_top_divider.png'),
                 ),
               ),
               moles[2],
               const Positioned(
-                top: 399,
-                width: 450,
+                top: 307,
+                width: 350,
                 child: IgnorePointer(
                   ignoring: true,
                   child: Image(
-                    image: AssetImage('game/top_2.png'),
+                    image: AssetImage('assets/image/top_2.png'),
                   ),
                 ),
               ),
               moles[3],
               moles[4],
               const Positioned(
-                top: 492,
-                width: 450,
+                top: 382,
+                width: 350,
                 child: Image(
-                  image: AssetImage('game/stand_front.png'),
+                  image: AssetImage('assets/image/stand_front.png'),
                 ),
               ),
               const Positioned(
-                top: 449,
-                width: 450,
+                top: 346,
+                width: 350,
                 child: IgnorePointer(
                   ignoring: true,
                   child: Image(
-                    image: AssetImage('game/top_1.png'),
+                    image: AssetImage('assets/image/top_1.png'),
                   ),
                 ),
               ),
               Positioned(
-                top: 225,
-                left: 169,
+                top: 175,
+                left: 131,
                 child: Container(
-                  height: 64,
-                  width: 110,
+                  height: 50,
+                  width: 90,
                   decoration: BoxDecoration(
                     border: Border.all(width: 2.0, color: Colors.green),
                     borderRadius:
@@ -189,7 +193,7 @@ class _GameState extends State<Game> {
                                       : "000" + value.toString(),
                           style: const TextStyle(
                             fontFamily: 'Digital',
-                            fontSize: 45,
+                            fontSize: 30,
                             color: Colors.red,
                             fontFeatures: [
                               FontFeature.tabularFigures(),
@@ -206,6 +210,15 @@ class _GameState extends State<Game> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        backgroundColor: Colors.green,
+        label: const Text('Exit'),
+        icon: const Icon(Icons.chevron_left),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }

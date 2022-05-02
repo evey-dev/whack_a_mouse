@@ -1,5 +1,5 @@
 name: whack_a_mole
-description: Whack a mole game
+description: Whack a mole image
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -57,7 +57,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - assets/image/
+    - assets/fonts/
   fonts:
     - family: Digital
       fonts:

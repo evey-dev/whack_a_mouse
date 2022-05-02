@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'const/app_theme.dart';
-import 'game.dart';
+import 'screen/menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,16 +7,16 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  static AppTheme colors = AppTheme();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Whack-a-mole',
       theme: ThemeData(
-        primarySwatch: colors.mainPink,
+        primarySwatch: Colors.green,
       ),
-      home: const Game(),
+      home: Menu(),
     );
   }
 }

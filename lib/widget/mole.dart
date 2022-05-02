@@ -43,16 +43,20 @@ class _MoleState extends State<Mole> {
   }
 
   void hide() {
-    setState(() {
-      widget.topLocation = widget.showTopLocation + 100;
-      widget.shown = false;
-    });
+    if (mounted) {
+      setState(() {
+        widget.topLocation = widget.showTopLocation + 100;
+        widget.shown = false;
+      });
+    }
   }
 
   void changeDuration(int m) {
-    setState(() {
-      widget.duration = Duration(milliseconds: m);
-    });
+    if (mounted) {
+      setState(() {
+        widget.duration = Duration(milliseconds: m);
+      });
+    }
   }
 
   @override
@@ -66,7 +70,7 @@ class _MoleState extends State<Mole> {
         ignoring: !widget.shown,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          child: const Image(image: AssetImage('game/mole.png')),
+          child: const Image(image: AssetImage('assets/image/mole.png')),
           onTap: () {
             setState(() {
               widget.hide();
