@@ -6,10 +6,10 @@ Inspired by Whack-A-Mole
 ## Screens
 
 ### Menu Screen
-![Menu Screen](https://github.com/evey-the-human/whack_a_mole/blob/master/assets/preview/menu.png)
+<img src="https://github.com/evey-dev/whack_a_mouse/blob/master/assets/preview/menu.png" alt="Menu Screen" width="200"/>
 
 ### Instructions Screen
-![Instructions Screen](https://github.com/evey-the-human/whack_a_mole/blob/master/assets/preview/instructions.png)
+<img src="https://github.com/evey-dev/whack_a_mouse/blob/master/assets/preview/instructions.png" alt="Instructions Screen" width="200"/>
 
 ### Game Screen
-![Game Screen](https://github.com/evey-the-human/whack_a_mole/blob/master/assets/preview/game.png)
+<img src="https://github.com/evey-dev/whack_a_mouse/blob/master/assets/preview/game.png" alt="Game Screen" width="200"/>
